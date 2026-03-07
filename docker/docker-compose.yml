@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+
+  coordinator:
+    build:
+      context: ..
+      dockerfile: docker/coordinator.Dockerfile
+    container_name: coordinator
+    ports:
+      - "3000:3000"
+
+  worker1:
+    build:
+      context: ..
+      dockerfile: docker/worker.Dockerfile
+    environment:
+      - COORDINATOR_URL=http://coordinator:3000
+
+  worker2:
+    build:
+      context: ..
+      dockerfile: docker/worker.Dockerfile
+    environment:
+      - COORDINATOR_URL=http://coordinator:3000
+
+  worker3:
+    build:
+      context: ..
+      dockerfile: docker/worker.Dockerfile
+    environment:
+      - COORDINATOR_URL=http://coordinator:3000
+
+  worker4:
+    build:
+      context: ..
+      dockerfile: docker/worker.Dockerfile
+    environment:
+      - COORDINATOR_URL=http://coordinator:3000
