@@ -1,62 +1,97 @@
-use actix_web::{get, post, App, HttpServer, Responder, HttpResponse, web};
-use serde::{Serialize, Deserialize};
+use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+use serde::{Deserialize, Serialize};
 use std::sync::Mutex;
 
-struct AppState {
-    next_row: Mutex<u32>,
-}
+const WIDTH: u32 = 800;
+const HEIGHT: u32 = 600;
+const MAX_ITER: u32 = 1000;
+const BLOCK_SIZE: u32 = 50;
 
 #[derive(Serialize)]
 struct Task {
-    start_row: u32,
-    end_row: u32,
+    x_start: f64,
+    x_end: f64,
+    y_start: f64,
+    y_end: f64,
     width: u32,
     height: u32,
     max_iter: u32,
+    start_row: u32,
+    end_row: u32,
+}
+
+#[derive(Deserialize)]
+struct ResultData {
+    start_row: u32,
+    end_row: u32,
+    data: Vec<u32>,
+}
+
+struct AppState {
+    next_row: Mutex<u32>,
+    image_data: Mutex<Vec<u32>>,
 }
 
 #[get("/task")]
 async fn get_task(data: web::Data<AppState>) -> impl Responder {
     let mut next_row = data.next_row.lock().unwrap();
 
-    if *next_row >= 600 {
+    if *next_row >= HEIGHT {
         return HttpResponse::NoContent().finish();
     }
 
     let start = *next_row;
-    let end = (*next_row + 50).min(600);
+    let end = (*next_row + BLOCK_SIZE).min(HEIGHT);
 
     *next_row = end;
 
     let task = Task {
+        x_start: -2.0,
+        x_end: 1.0,
+        y_start: -1.5,
+        y_end: 1.5,
+        width: WIDTH,
+        height: HEIGHT,
+        max_iter: MAX_ITER,
         start_row: start,
         end_row: end,
-        width: 800,
-        height: 600,
-        max_iter: 1000,
     };
+
+    println!("Asignando filas {} a {}", start, end);
 
     HttpResponse::Ok().json(task)
 }
 
-#[derive(Deserialize)]
-struct ResultData {
-    start_row: u32,
-    data: Vec<u8>,
-}
-
 #[post("/result")]
-async fn receive_result(info: web::Json<ResultData>) -> impl Responder {
-    println!("Resultado recibido desde fila {}", info.start_row);
+async fn receive_result(
+    data: web::Data<AppState>,
+    result: web::Json<ResultData>,
+) -> impl Responder {
+    let mut image = data.image_data.lock().unwrap();
+
+    let start_index = result.start_row as usize * WIDTH as usize;
+
+    for (i, value) in result.data.iter().enumerate() {
+        image[start_index + i] = *value;
+    }
+
+    println!(
+        "Resultado recibido filas {} a {}",
+        result.start_row, result.end_row
+    );
+
     HttpResponse::Ok().finish()
 }
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    println!("Coordinator running...");
+    println!("Coordinator running on port 3000");
+
+    let image_buffer = vec![0; (WIDTH * HEIGHT) as usize];
 
     let state = web::Data::new(AppState {
         next_row: Mutex::new(0),
+        image_data: Mutex::new(image_buffer),
     });
 
     HttpServer::new(move || {
