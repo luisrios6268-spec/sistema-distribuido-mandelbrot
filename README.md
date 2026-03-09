@@ -1,167 +1,274 @@
 # Mandelbrot Distribuido con Rust y Docker
 
-Este proyecto implementa un sistema de **computación distribuida** para generar el **Conjunto de Mandelbrot** utilizando una arquitectura **Coordinator–Workers**.
+Este proyecto implementa un sistema de computación distribuida para generar el **Conjunto de Mandelbrot** utilizando una arquitectura **Coordinator–Workers**.
 
 El sistema distribuye bloques del plano complejo entre múltiples workers que calculan su porción del fractal y envían los resultados al coordinator, quien reconstruye la imagen final.
 
 ---
 
-# Arquitectura
+# Tecnologías utilizadas
 
-El sistema está compuesto por:
+* Rust
+* Actix Web
+* Docker
+* Docker Compose
+* Comunicación HTTP
+* Arquitectura distribuida
+* VPN con WireGuard
 
-- **Coordinator (HUB)**  
-  Asigna bloques de trabajo y reconstruye la imagen final.
+---
 
-- **Workers (PEERS)**  
-  Solicitan tareas, calculan su región del fractal y envían los resultados.
+# Estructura del proyecto
 
-        HUB
-   [ Coordinator ]
-         ↑
-         ↓
-        VPN
-         ↓
-   [ Worker ][ Worker ][ Worker ]
-          PEER
-Tecnologías utilizadas
-
-Rust
-
-Actix Web
-
-Docker
-
-Comunicación HTTP
-
-Arquitectura distribuida
-
-Estructura del proyecto
+```
 mandelbrot-distribuido
+│
+├── docker
+│   ├── docker-compose.yml
+│   ├── coordinator.Dockerfile
+│   └── worker.Dockerfile
 │
 ├── rust
 │   ├── coordinator
 │   │   ├── Cargo.toml
-│   │   ├── Dockerfile
 │   │   └── src/main.rs
 │   │
 │   └── worker
 │       ├── Cargo.toml
-│       ├── Dockerfile
 │       └── src/main.rs
-Requisitos
+│
+├── vpn
+│   └── configuraciones_sanitizadas
+│
+├── docs
+│   └── reportes
+│
+└── README.md
+```
 
-Antes de ejecutar el proyecto necesitas:
+---
 
-Rust
+# Requisitos
 
-Cargo
+Antes de ejecutar el proyecto necesitas tener instalado:
 
-Docker
+* Rust
+* Cargo
+* Docker
+* Docker Compose
+* Conectividad de red entre coordinator y workers (VPN o red local)
 
-Conectividad de red entre coordinator y workers (VPN o red local)
+Verificar instalación de Docker:
 
-Verificar Docker:
-
+```
 docker --version
-Compilar el Coordinator
+```
 
-Ir a la carpeta del coordinator:
+Verificar Docker Compose:
 
-cd mandelbrot-distribuido/rust/coordinator
+```
+docker compose version
+```
 
-Compilar:
+---
 
-cargo build --release
+# Construcción y ejecución del sistema
 
-Construir imagen Docker:
+El sistema distribuido se ejecuta en múltiples máquinas conectadas mediante una VPN.
 
-docker build -t mandelbrot-coordinator .
-Ejecutar el Coordinator
-docker run -d \
---name coordinator \
--p 3000:3000 \
+La arquitectura es la siguiente:
+
+- 1 máquina ejecuta el **Coordinator**
+- 4 máquinas **Peer**
+- Cada Peer ejecuta **4 contenedores Worker** utilizando Docker Compose
+
+---
+
+# Ejecución del Coordinator
+
+En la máquina designada como HUB (Coordinator):
+
+Ir a la carpeta del proyecto:
+
+
+cd mandelbrot-distribuido
+
+
+Construir la imagen del coordinator:
+
+
+docker build -f docker/coordinator.Dockerfile -t mandelbrot-coordinator .
+
+
+Ejecutar el coordinator:
+
+
+docker run -d
+--name coordinator
+-p 3000:3000
 mandelbrot-coordinator
 
-Ver logs:
 
-docker logs -f coordinator
-Compilar el Worker
+Verificar ejecución:
 
-Ir a la carpeta del worker:
 
-cd mandelbrot-distribuido/rust/worker
+docker ps
 
-Compilar:
 
-cargo build --release
+---
 
-Construir imagen Docker:
+# Ejecución de Workers (Peers)
 
-docker build -t mandelbrot-worker .
-Configurar dirección del Coordinator
+En cada máquina PEER:
 
-En el archivo:
+Ir a la carpeta del proyecto:
 
-worker/src/main.rs
 
-Asegurarse de que el worker apunte a la IP del coordinator:
+cd mandelbrot-distribuido/docker
 
-http://IP_DEL_COORDINATOR:3000/task
-http://IP_DEL_COORDINATOR:3000/result
 
-Ejemplo:
+Construir las imágenes:
 
-http://10.10.10.1:3000
-Ejecutar Workers
 
-En la máquina PEER ejecutar:
+docker compose build
 
-docker run -d mandelbrot-worker
-docker run -d mandelbrot-worker
-docker run -d mandelbrot-worker
-docker run -d mandelbrot-worker
 
-Esto iniciará múltiples workers en paralelo.
+Iniciar los workers:
 
-Flujo de ejecución
 
-Workers solicitan tareas al coordinator
+docker compose up -d
 
-Coordinator asigna bloques de filas
 
-Workers calculan su parte del fractal
+Esto iniciará **4 contenedores worker en cada máquina peer**.
 
-Workers envían resultados
+Ver contenedores en ejecución:
 
-Coordinator reconstruye la imagen
+
+docker ps
+
+---
+
+# Flujo de ejecución
+
+1. Los **workers** solicitan tareas al coordinator.
+2. El **coordinator** asigna bloques de filas del plano complejo.
+3. Los workers calculan su parte del fractal.
+4. Los workers envían los resultados al coordinator.
+5. El coordinator reconstruye la imagen final.
 
 Se genera el archivo:
 
+```
 mandelbrot.png
-Obtener la imagen generada
+```
 
-Copiar la imagen desde el contenedor:
+---
 
+# Obtener la imagen generada
+
+Copiar la imagen desde el contenedor del coordinator:
+
+```
 docker cp coordinator:/app/mandelbrot.png .
+```
 
-Abrir imagen:
+Abrir la imagen:
 
+```
 xdg-open mandelbrot.png
-Escalabilidad
+```
 
-El sistema es escalable horizontalmente.
+---
 
-Se pueden agregar más workers simplemente ejecutando más contenedores:
+# Escalabilidad
 
-docker run -d mandelbrot-worker
+El sistema es **escalable horizontalmente**.
 
-Incluso en múltiples máquinas PEER conectadas a la red.
+Actualmente la arquitectura del proyecto contempla:
 
-Resultado
+- 1 nodo **Coordinator**
+- 4 máquinas **Peer**
+- 4 contenedores **Worker por Peer**
 
-El sistema genera una imagen del Conjunto de Mandelbrot calculada de forma distribuida utilizando múltiples workers.
+Esto da un total de **16 workers ejecutándose en paralelo**.
 
-Autor
+## Escalar dentro de un Peer
 
-Proyecto académico de sistemas distribuidos.
+Se pueden agregar más workers en una máquina Peer modificando el archivo:
+
+
+docker/docker-compose.yml
+
+
+y agregando más servicios worker.
+
+## Escalar el sistema distribuido
+
+También es posible agregar **más máquinas Peer** conectadas a la VPN.
+
+Cada nueva máquina puede ejecutar su propio `docker-compose` con múltiples workers, aumentando la capacidad de procesamiento
+---
+
+# Configuración y uso de la VPN (WireGuard)
+
+Para permitir la comunicación entre los nodos del sistema distribuido se utiliza una red privada virtual basada en **WireGuard**.
+
+Cada integrante del equipo debe:
+
+1. Instalar WireGuard en su máquina Linux.
+
+2. Copiar su archivo de configuración correspondiente:
+
+```
+/etc/wireguard/wg0.conf
+```
+
+3. Levantar la interfaz de red:
+
+```
+sudo wg-quick up wg0
+```
+
+4. Verificar el estado de la conexión:
+
+```
+wg show
+```
+
+5. Comprobar conectividad con otros nodos de la VPN:
+
+```
+ping <IP_DEL_OTRO_NODO>
+```
+
+Las plantillas de configuración utilizadas en el proyecto se encuentran en:
+
+```
+vpn/configuraciones_sanitizadas
+```
+
+**Nota:**
+En estas plantillas las llaves privadas han sido eliminadas por motivos de seguridad.
+
+---
+
+# Notas importantes y supuestos
+
+* Cada integrante ejecuta los contenedores Docker en una máquina Linux independiente.
+* Los nodos del sistema se comunican a través de la red VPN WireGuard.
+* El coordinator es accesible mediante su dirección IP dentro de la VPN.
+* Cada host puede ejecutar múltiples contenedores worker.
+* Las configuraciones de WireGuard publicadas en este repositorio han sido **sanitizadas**, eliminando las llaves privadas.
+* Para pruebas locales es posible ejecutar todos los contenedores en una sola máquina utilizando Docker Compose.
+
+---
+
+# Resultado
+
+El sistema genera una imagen del **Conjunto de Mandelbrot** calculada de forma distribuida utilizando múltiples workers.
+
+---
+
+# Autor
+
+Proyecto académico de Sistemas Distribuidos.
