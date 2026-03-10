@@ -1,5 +1,6 @@
 use reqwest::blocking::Client;
 use serde::{Deserialize, Serialize};
+use std::{thread, time::Duration};
 
 #[derive(Debug, Deserialize)]
 struct Task {
@@ -45,17 +46,32 @@ fn main() {
     let client = Client::new();
 
     loop {
-        let response = client
-           .get("http://10.10.10.1:3000/task")
+        let response = match client
+            .get("http://10.10.10.1:3000/task")
             .send()
-            .unwrap();
+        {
+            Ok(resp) => resp,
+            Err(_) => {
+                println!("No se pudo conectar al coordinator. Reintentando...");
+                thread::sleep(Duration::from_secs(2));
+                continue;
+            }
+        };
 
         if response.status() == 204 {
-            println!("No more tasks. Worker finaliza.");
-            break;
+            println!("No hay tareas disponibles. Esperando...");
+            thread::sleep(Duration::from_secs(2));
+            continue;
         }
 
-        let task: Task = response.json().unwrap();
+        let task: Task = match response.json() {
+            Ok(t) => t,
+            Err(_) => {
+                println!("Error al leer la tarea. Reintentando...");
+                thread::sleep(Duration::from_secs(2));
+                continue;
+            }
+        };
 
         println!(
             "Calculando filas {} a {}",
@@ -85,10 +101,13 @@ fn main() {
             data: result,
         };
 
-        client
+        match client
             .post("http://10.10.10.1:3000/result")
             .json(&result_data)
             .send()
-            .unwrap();
+        {
+            Ok(_) => println!("Resultado enviado al coordinator."),
+            Err(_) => println!("Error enviando resultado."),
+        }
     }
 }
