@@ -45,9 +45,16 @@ fn main() {
     println!("Worker iniciado...");
     let client = Client::new();
 
+    // 🔥 USAR VARIABLE DE ENTORNO
+    let base_url = std::env::var("COORDINATOR_URL")
+        .unwrap_or("http://10.236.223.107:3000".to_string());
+
+    let task_url = format!("{}/task", base_url);
+    let result_url = format!("{}/result", base_url);
+
     loop {
         let response = match client
-            .get("http://10.10.10.1:3000/task")
+            .get(&task_url)
             .send()
         {
             Ok(resp) => resp,
@@ -102,7 +109,7 @@ fn main() {
         };
 
         match client
-            .post("http://10.10.10.1:3000/result")
+            .post(&result_url)
             .json(&result_data)
             .send()
         {

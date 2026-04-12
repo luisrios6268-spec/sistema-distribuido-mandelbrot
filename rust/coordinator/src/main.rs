@@ -6,7 +6,7 @@ use image::{ImageBuffer, Rgb};
 const WIDTH: u32 = 800;
 const HEIGHT: u32 = 600;
 const MAX_ITER: u32 = 1000;
-const BLOCK_SIZE: u32 = 50;
+const BLOCK_SIZE: u32 = 20; // 🔥 MÁS PEQUEÑO = mejor distribución
 
 #[derive(Serialize)]
 struct Task {
@@ -32,6 +32,7 @@ struct AppState {
     next_row: Mutex<u32>,
     image_data: Mutex<Vec<u32>>,
     completed_rows: Mutex<u32>,
+    finished: Mutex<bool>, // 🔥 NUEVO
 }
 
 fn save_image(data: &Vec<u32>) {
@@ -94,6 +95,7 @@ async fn receive_result(
 
     let mut image = data.image_data.lock().unwrap();
     let mut completed = data.completed_rows.lock().unwrap();
+    let mut finished = data.finished.lock().unwrap(); // 🔥 NUEVO
 
     let start_index = result.start_row as usize * WIDTH as usize;
 
@@ -110,9 +112,11 @@ async fn receive_result(
 
     println!("Progreso: {} / {}", *completed, HEIGHT);
 
-    if *completed >= HEIGHT {
+    // 🔥 EVITA GUARDAR LA IMAGEN MÁS DE UNA VEZ
+    if *completed >= HEIGHT && !*finished {
         println!("Todas las filas recibidas. Generando imagen...");
         save_image(&image);
+        *finished = true;
     }
 
     HttpResponse::Ok().finish()
@@ -128,6 +132,7 @@ async fn main() -> std::io::Result<()> {
         next_row: Mutex::new(0),
         image_data: Mutex::new(image_buffer),
         completed_rows: Mutex::new(0),
+        finished: Mutex::new(false), // 🔥 NUEVO
     });
 
     HttpServer::new(move || {

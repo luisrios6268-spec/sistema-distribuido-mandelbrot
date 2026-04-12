@@ -1,29 +1,15 @@
 services:
-
   worker1:
     build:
       context: ..
       dockerfile: docker/worker.Dockerfile
     environment:
-      - COORDINATOR_URL=http://10.10.10.1:3000
+      - COORDINATOR_URL=http://10.236.223.107:3000
 
   worker2:
     build:
       context: ..
       dockerfile: docker/worker.Dockerfile
     environment:
-      - COORDINATOR_URL=http://10.10.10.1:3000
+      - COORDINATOR_URL=http://10.236.223.107:3000
 
-  worker3:
-    build:
-      context: ..
-      dockerfile: docker/worker.Dockerfile
-    environment:
-      - COORDINATOR_URL=http://10.10.10.1:3000
-
-  worker4:
-    build:
-      context: ..
-      dockerfile: docker/worker.Dockerfile
-    environment:
-      - COORDINATOR_URL=http://10.10.10.1:3000
