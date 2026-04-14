@@ -24,24 +24,24 @@ El sistema divide el plano complejo en bloques que son procesados en paralelo po
 mandelbrot-distribuido
 │
 ├── docker
-│ ├── docker-compose.yml
-│ ├── coordinator.Dockerfile
-│ └── worker.Dockerfile
+│   ├── docker-compose.yml
+│   ├── coordinator.Dockerfile
+│   └── worker.Dockerfile
 │
 ├── rust
-│ ├── coordinator
-│ │ ├── Cargo.toml
-│ │ └── src/main.rs
-│ │
-│ └── worker
-│ ├── Cargo.toml
-│ └── src/main.rs
+│   ├── coordinator
+│   │   ├── Cargo.toml
+│   │   └── src/main.rs
+│   │
+│   └── worker
+│       ├── Cargo.toml
+│       └── src/main.rs
 │
 ├── vpn
-│ └── configuraciones_sanitizadas
+│   └── configuraciones_sanitizadas
 │
 ├── docs
-│ └── reportes
+│   └── reportes
 │
 └── README.md
 
