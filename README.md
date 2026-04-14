@@ -71,6 +71,7 @@ Modelo **Maestro-Trabajador** sobre VPN ZeroTier.
 
 git clone https://github.com/luisrios6268-spec/sistema-distribuido-mandelbrot.git
 cd sistema-distribuido-mandelbrot
+
 2️⃣ Configurar ZeroTier
 
 Instalar:
@@ -90,6 +91,7 @@ Ping entre nodos:
 ping 10.236.223.107
 
 ![📸 Evidencia — Conectividad ZeroTier](docs/evidencias/zerotier_ping.png)
+
 3️⃣ Despliegue con Docker
 
 Nodo Coordinador:
@@ -105,6 +107,7 @@ COORDINATOR_URL=http://10.236.223.107:8080
 Luego:
 
 docker-compose up -d worker
+
 🧪 Compilación Manual (Sin Docker)
 
 Coordinator:
@@ -134,6 +137,7 @@ Resultado:
 output/mandelbrot.png
 
 ![📸 Evidencia — Imagen Generada](docs/evidencias/image_generated.png)
+
 ✅ Verificación del Sistema
 Verificar ZeroTier
 zerotier-cli listnetworks
@@ -179,17 +183,21 @@ iperf3 -c 10.236.223.107 -t 10 -R
 │   ├── planeacion-scrum.pdf
 │   └── evidencias/
 └── README.md
+
 👥 Equipo y Roles Scrum
+
 Integrante	Rol	Área
 Cristopher Said Ramírez Ruiz	Product Owner	VPN & Red
-Luis Rogelio Ríos Arellano	Product Owner	Docker
+Luis Rogelio Ríos Arellano	Product Owner	Coordinador Rust
 Sofía Gómez Alton	Scrum Master	Worker Rust
-Jorge Iván Ramírez Llamas	Scrum Master	Coordinador Rust
+Jorge Iván Ramírez Llamas	Scrum Master	Docker
+
 📅 Metodología Scrum
 Sprint	Objetivo	Estado
 Sprint 1	Red ZeroTier + Rust	✅
 Sprint 2	Docker distribuido	✅
 Sprint 3	Integración y pruebas	✅ COMPLETADO
+
 ✅ Definition of Done
 ✔ Nodos conectados mediante ZeroTier
 ✔ Workers distribuidos funcionando
