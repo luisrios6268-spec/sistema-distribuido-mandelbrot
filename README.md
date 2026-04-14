@@ -8,10 +8,11 @@
 Universidad de Guadalajara (CUCEI) | Primavera 2026
 
 <p align="center">
-  <img src="docs/evidencias/portada.png" width="900">
+  <img src="docs/evidencias/portada.png" width="950">
 </p>
 
 ## 🌐 Demo del Proyecto
+Documentación interactiva del proyecto:
 👉 https://luisrios6268-spec.github.io/sistema-distribuido-mandelbrot/
 
 ## 📑 Tabla de Contenidos
@@ -297,6 +298,12 @@ Sprint 3	Integración y pruebas	✅ COMPLETADO
 El sistema logró distribuir exitosamente el cálculo del fractal Mandelbrot
 entre múltiples nodos conectados mediante ZeroTier, validando el modelo
 Coordinator-Worker en un entorno real distribuido.
+
+## 📌 Estado del Proyecto
+
+✅ Proyecto Finalizado  
+✅ Sistema Distribuido Funcional  
+✅ Evidencias Verificadas  
 
 Proyecto académico — Universidad de Guadalajara
 Licencia MIT.
