@@ -127,6 +127,7 @@ ping 10.236.223.107
 
 <p align="center">
   📸Evidencia — Conectividad ZeroTier
+  
   <img src="docs/evidencias/zerotier_ping.png">
 </p>
 
@@ -191,6 +192,7 @@ output/mandelbrot.png
 
 <p align="center">
   📸Evidencia — Imagen Generada
+  
   <img src="docs/evidencias/image_generated.png">
 </p>
 
@@ -206,6 +208,7 @@ docker ps
 
 <p align="center">
   📸Evidencia:
+  
   <img src="docs/evidencias/docker_ps.png">
 </p>
 
@@ -217,6 +220,7 @@ docker-compose logs worker
 
 <p align="center">
   📸Evidencia:
+  
   <img src="docs/evidencias/workers_logs.png">
 </p>
 
@@ -236,6 +240,7 @@ iperf3 -s
 
 <p align="center">
   📸Evidencia:
+  
   <img src="docs/evidencias/iperf3-s.png">
 </p>
 
@@ -247,6 +252,7 @@ iperf3 -c 10.236.223.107 -t 10
 
 <p align="center">
   📸Evidencia:
+  
   <img src="docs/evidencias/iperf3_test.png">
 </p>
 
@@ -258,6 +264,7 @@ iperf3 -c 10.236.223.107 -t 10 -R
 
 <p align="center">
   📸Evidencia:
+  
   <img src="docs/evidencias/iperf3_test2.png">
 </p>
 
