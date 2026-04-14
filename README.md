@@ -70,6 +70,7 @@ Modelo **Maestro-Trabajador** sobre VPN ZeroTier.
 ### 1️⃣ Clonar repositorio
 
 git clone https://github.com/luisrios6268-spec/sistema-distribuido-mandelbrot.git
+
 cd sistema-distribuido-mandelbrot
 
 2️⃣ Configurar ZeroTier
@@ -120,6 +121,7 @@ Worker:
 
 cd worker
 cargo run
+
 🎯 Uso del Sistema
 
 Iniciar cálculo:
@@ -139,6 +141,7 @@ output/mandelbrot.png
 ![📸 Evidencia — Imagen Generada](docs/evidencias/image_generated.png)
 
 ✅ Verificación del Sistema
+
 Verificar ZeroTier
 zerotier-cli listnetworks
 Verificar contenedores
@@ -154,6 +157,7 @@ docker-compose logs worker
 
 Verificar imagen generada
 ls output/
+
 📊 Pruebas de Rendimiento (iperf3)
 
 Servidor:
