@@ -61,8 +61,9 @@ Modelo **Maestro-Trabajador** sobre VPN ZeroTier.
 
 ### 📸 Diagrama del Sistema
 
-<p align="center">
-![Arquitectura Distribuida](docs/evidencias/diagram.png)
+<p align="center">  
+  Arquitectura Distribuida
+  <img src="docs/evidencias/diagram.png">
 </p>
 
 ---
@@ -125,7 +126,7 @@ ping 10.236.223.107
 ```
 
 <p align="center">
-  ![📸 Evidencia — Conectividad ZeroTier]
+  📸Evidencia — Conectividad ZeroTier
   <img src="docs/evidencias/zerotier_ping.png">
 </p>
 
@@ -189,8 +190,8 @@ output/mandelbrot.png
 ```
 
 <p align="center">
-  ![📸 Evidencia — Imagen Generada]
-  <img src="docs/evidencias/image_generated.png" width="900">
+  📸Evidencia — Imagen Generada
+  <img src="docs/evidencias/image_generated.png">
 </p>
 
 ✅ Verificación del Sistema
@@ -204,8 +205,8 @@ docker ps
 ```
 
 <p align="center">
-  ![📸 Evidencia:]
-  <img src="docs/evidencias/docker_ps.png" width="900">
+  📸Evidencia:
+  <img src="docs/evidencias/docker_ps.png">
 </p>
 
 Verificar comunicación Worker
@@ -215,8 +216,8 @@ docker-compose logs worker
 ```
 
 <p align="center">
-  ![📸 Evidencia:]  
-  <img src="docs/evidencias/workers_logs.png" width="900">
+  📸Evidencia:
+  <img src="docs/evidencias/workers_logs.png">
 </p>
 
 Verificar imagen generada
@@ -234,8 +235,8 @@ iperf3 -s
 ```
 
 <p align="center">
-  ![📸 Evidencia:]
-  <img src="docs/evidencias/iperf3-s.png" width="900">
+  📸Evidencia:
+  <img src="docs/evidencias/iperf3-s.png">
 </p>
 
 Cliente:
@@ -245,8 +246,8 @@ iperf3 -c 10.236.223.107 -t 10
 ```
 
 <p align="center">
-  ![📸 Evidencia:]
-  <img src="docs/evidencias/iperf3_test.png" width="900">
+  📸Evidencia:
+  <img src="docs/evidencias/iperf3_test.png">
 </p>
 
 Reverse Test:
@@ -256,8 +257,8 @@ iperf3 -c 10.236.223.107 -t 10 -R
 ```
 
 <p align="center">
-  ![📸 Evidencia:]
-  <img src="docs/evidencias/iperf3_test2.png" width="900">
+  📸Evidencia:
+  <img src="docs/evidencias/iperf3_test2.png">
 </p>
 
 📁 Estructura del Proyecto
