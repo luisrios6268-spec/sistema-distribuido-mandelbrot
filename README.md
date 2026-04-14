@@ -125,7 +125,8 @@ ping 10.236.223.107
 ```
 
 <p align="center">
-![📸 Evidencia — Conectividad ZeroTier](docs/evidencias/zerotier_ping.png)
+  ![📸 Evidencia — Conectividad ZeroTier]
+  <img src="docs/evidencias/zerotier_ping.png" width="900">
 </p>
 
 3️⃣ Despliegue con Docker
@@ -188,7 +189,8 @@ output/mandelbrot.png
 ```
 
 <p align="center">
-![📸 Evidencia — Imagen Generada](docs/evidencias/image_generated.png)
+  ![📸 Evidencia — Imagen Generada]
+  <img src="docs/evidencias/image_generated.png" width="900">
 </p>
 
 ✅ Verificación del Sistema
@@ -202,7 +204,8 @@ docker ps
 ```
 
 <p align="center">
-![📸 Evidencia:](docs/evidencias/docker_ps.png)
+  ![📸 Evidencia:]
+  <img src="docs/evidencias/docker_ps.png" width="900">
 </p>
 
 Verificar comunicación Worker
@@ -212,7 +215,8 @@ docker-compose logs worker
 ```
 
 <p align="center">
-![📸 Evidencia:](docs/evidencias/workers_logs.png)
+  ![📸 Evidencia:]  
+  <img src="docs/evidencias/workers_logs.png" width="900">
 </p>
 
 Verificar imagen generada
@@ -230,7 +234,8 @@ iperf3 -s
 ```
 
 <p align="center">
-![📸 Evidencia:](docs/evidencias/iperf3-s.png)
+  ![📸 Evidencia:]
+  <img src="docs/evidencias/iperf3-s.png" width="900">
 </p>
 
 Cliente:
@@ -240,7 +245,8 @@ iperf3 -c 10.236.223.107 -t 10
 ```
 
 <p align="center">
-![📸 Evidencia:](docs/evidencias/iperf3_test.png)
+  ![📸 Evidencia:]
+  <img src="docs/evidencias/iperf3_test.png" width="900">
 </p>
 
 Reverse Test:
@@ -250,7 +256,8 @@ iperf3 -c 10.236.223.107 -t 10 -R
 ```
 
 <p align="center">
-![📸 Evidencia:](docs/evidencias/iperf3_test2.png)
+  ![📸 Evidencia:]
+  <img src="docs/evidencias/iperf3_test2.png" width="900">
 </p>
 
 📁 Estructura del Proyecto
