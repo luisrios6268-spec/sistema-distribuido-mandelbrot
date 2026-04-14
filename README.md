@@ -21,6 +21,7 @@ El sistema divide el plano complejo en bloques que son procesados en paralelo po
 ## 📁 Estructura del proyecto
 
 
+```bash
 mandelbrot-distribuido
 │
 ├── docker
@@ -44,9 +45,6 @@ mandelbrot-distribuido
 │   └── reportes
 │
 └── README.md
-
-
----
 
 ## ⚙️ Requisitos
 
