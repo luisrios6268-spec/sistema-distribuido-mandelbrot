@@ -1,49 +1,74 @@
-🖥️ Sistema Distribuido de Cálculo del Conjunto de Mandelbrot
+# 🖥️ Sistema Distribuido de Cálculo del Conjunto de Mandelbrot
 
-Proyecto Final — Sistemas Distribuidos
+**Proyecto Final — Sistemas Distribuidos**  
 Universidad de Guadalajara (CUCEI) | Primavera 2026
 
-📖 Descripción
+---
+
+## 📖 Descripción
 
 Este proyecto implementa un sistema distribuido capaz de generar el fractal de Mandelbrot utilizando múltiples nodos conectados mediante una red virtual privada.
 
 El sistema emplea:
 
-Rust → cálculo paralelo de alto rendimiento
-Docker → despliegue reproducible
-ZeroTier → red privada distribuida entre nodos
-Scrum → gestión ágil del desarrollo
+- 🦀 **Rust** → cálculo paralelo de alto rendimiento  
+- 🐳 **Docker** → despliegue reproducible  
+- 🌐 **ZeroTier** → red privada distribuida entre nodos  
+- 📋 **Scrum** → gestión ágil del desarrollo  
 
-El procesamiento se distribuye bajo el modelo Coordinator-Worker, permitiendo escalabilidad horizontal.
+El procesamiento se distribuye bajo el modelo **Coordinator-Worker**, permitiendo escalabilidad horizontal.
 
-✨ Características
-División dinámica de tareas
-Comunicación segura entre nodos
-Ejecución distribuida real
-Escalabilidad por contenedores
-Generación automática de imagen final
-Pruebas de rendimiento de red
-🏗️ Arquitectura del Sistema
+---
 
-Modelo Maestro-Trabajador sobre VPN ZeroTier.
-![DIAGRAMA MODELO MAESTRO-TRABAJADOR](docs/evidencias/diagram.png)
-🛠️ Tecnologías Utilizadas
-Tecnología	Uso
-Rust	Cálculo Mandelbrot
-Docker	Contenerización
-Docker Compose	Orquestación
-ZeroTier	Red privada
-iperf3	Pruebas de red
-GitHub	Control de versiones
-📋 Requisitos Previos
-Linux / WSL2
-Docker
-Docker Compose
-Git
-ZeroTier One
-Rust (opcional)
-🚀 Instalación y Configuración
-1️⃣ Clonar repositorio
+## ✨ Características
+
+- División dinámica de tareas  
+- Comunicación segura entre nodos  
+- Ejecución distribuida real  
+- Escalabilidad por contenedores  
+- Generación automática de imagen final  
+- Pruebas de rendimiento de red  
+
+---
+
+## 🏗️ Arquitectura del Sistema
+
+Modelo **Maestro-Trabajador** sobre VPN ZeroTier.
+
+### 📸 Diagrama del Sistema
+
+![Arquitectura Distribuida](docs/evidencias/diagram.png)
+
+---
+
+## 🛠️ Tecnologías Utilizadas
+
+| Tecnología | Uso |
+|---|---|
+| Rust | Cálculo Mandelbrot |
+| Docker | Contenerización |
+| Docker Compose | Orquestación |
+| ZeroTier | Red privada |
+| iperf3 | Pruebas de red |
+| GitHub | Control de versiones |
+
+---
+
+## 📋 Requisitos Previos
+
+- Linux / WSL2
+- Docker
+- Docker Compose
+- Git
+- ZeroTier One
+- Rust (opcional)
+
+---
+
+## 🚀 Instalación y Configuración
+
+### 1️⃣ Clonar repositorio
+
 git clone https://github.com/luisrios6268-spec/sistema-distribuido-mandelbrot.git
 cd sistema-distribuido-mandelbrot
 2️⃣ Configurar ZeroTier
@@ -63,8 +88,8 @@ zerotier-cli listnetworks
 Ping entre nodos:
 
 ping 10.236.223.107
-📸 Evidencia
 
+![📸 Evidencia — Conectividad ZeroTier](docs/evidencias/zerotier_ping.png)
 3️⃣ Despliegue con Docker
 
 Nodo Coordinador:
@@ -107,20 +132,21 @@ docker-compose logs -f worker
 Resultado:
 
 output/mandelbrot.png
-📸 Evidencia Resultado
 
+![📸 Evidencia — Imagen Generada](docs/evidencias/image_generated.png)
 ✅ Verificación del Sistema
 Verificar ZeroTier
 zerotier-cli listnetworks
 Verificar contenedores
 docker ps
 
-📸
+![📸 Evidencia:](docs/evidencias/docker_ps.png)
 
-Verificar comunicación worker
+
+Verificar comunicación Worker
 docker-compose logs worker
 
-📸
+![📸 Evidencia:](docs/evidencias/workers_logs.png)
 
 Verificar imagen generada
 ls output/
@@ -130,18 +156,19 @@ Servidor:
 
 iperf3 -s
 
+![📸 Evidencia:](docs/evidencias/iperf3-s.png)
+
 Cliente:
 
-iperf3 -c 10.236.223.107
+iperf3 -c 10.236.223.107 -t 10
 
-Resultados obtenidos:
+![📸 Evidencia:](docs/evidencias/iperf3_test.png)
 
-Latencia estable
-Comunicación entre nodos validada
-Transferencia suficiente para distribución de tareas
+Reverse Test:
 
-📸 Evidencia:
+iperf3 -c 10.236.223.107 -t 10 -R
 
+![📸 Evidencia:](docs/evidencias/iperf3_test2.png)
 
 📁 Estructura del Proyecto
 .
@@ -155,7 +182,7 @@ Transferencia suficiente para distribución de tareas
 👥 Equipo y Roles Scrum
 Integrante	Rol	Área
 Cristopher Said Ramírez Ruiz	Product Owner	VPN & Red
-Luis Rogelio Ríos Arellano	DevOps	Docker
+Luis Rogelio Ríos Arellano	Product Owner	Docker
 Sofía Gómez Alton	Scrum Master	Worker Rust
 Jorge Iván Ramírez Llamas	Scrum Master	Coordinador Rust
 📅 Metodología Scrum
