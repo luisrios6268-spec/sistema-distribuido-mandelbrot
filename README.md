@@ -126,7 +126,7 @@ ping 10.236.223.107
 
 <p align="center">
   ![📸 Evidencia — Conectividad ZeroTier]
-  <img src="docs/evidencias/zerotier_ping.png" width="900">
+  <img src="docs/evidencias/zerotier_ping.png">
 </p>
 
 3️⃣ Despliegue con Docker
